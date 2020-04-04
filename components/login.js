@@ -1,50 +1,58 @@
-import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, Image } from 'react-native'
-import styles from './style'
-import * as firebase from 'firebase';
+import React from "react";
+import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import TextInput from "./common/TextInput";
+import FoodIcon from "../assets/food-icon.png";
+import { loginUser } from "../actions";
+const Login = () => {
+  const [inputs, setInputs] = React.useState({});
+  const [error, setErrors] = React.useState("");
 
+  const onPressLogin = async () => {
+    setErrors("");
+    console.log("INPUTS", inputs);
+    const res = await loginUser(inputs);
+    console.log(res);
+    if (!res.success) setErrors("Invalid Email/Password");
+  };
+  return (
+    <View style={styles.login}>
+      <Image source={FoodIcon} />
+      <TextInput
+        height={40}
+        placeholder="Username / Email"
+        onChangeText={(text) => setInputs({ ...inputs, email: text })}
+      />
+      <TextInput
+        height={40}
+        placeholder="Password"
+        onChangeText={(text) => setInputs({ ...inputs, password: text })}
+      />
 
-export default class Login extends React.Component {
-  state = { email: '', password: '', errorMessage: null }
-  handleLogin = () => {
-    const myUsers = firebase.database().ref("fatimafyp");
-    myUsers.on("value",datasnap=>{
-      console.log(datasnap.val())
-    })
-    
-    console.log('handleLogin')
-  }
-  
-  render() {
-    return (
-      <View style={styles.container}>
-	<Image style={{width:50 , height:50}}
-		       source={require('./logo.jpeg')} /> 
-        <Text style={{color:'green', fontSize: 40}}>Login</Text>
-        {this.state.errorMessage &&
-          <Text style={{ color: 'green' }}>
-            {this.state.errorMessage}
-          </Text>}
-        <TextInput
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Email"
-          onChangeText={email => this.setState({ email })}
-          value={this.state.email}
-        />
-        <TextInput
-          secureTextEntry
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Password"
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password}
-        />
-        <Button title="Login" color="green" onPress={this.handleLogin} />
-        <View>
-        <Text> Don't have an account? <Text onPress={() => this.props.navigation.navigate('Signup')} style={{color:'green', fontSize: 18}}> Sign Up </Text></Text>
-        </View>
-      </View>
-    )
-  }
-}
+      <TouchableOpacity style={styles.button} onPress={onPressLogin}>
+        <Text style={{ fontSize: 20, color: "white" }}>Login</Text>
+      </TouchableOpacity>
+      {error ? (
+        <Text style={{ color: "red", marginTop: 10, fontSize: 20 }}>
+          {error}
+        </Text>
+      ) : null}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  login: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#841584",
+    padding: 10,
+    width: 150,
+    marginTop: 10,
+  },
+});
+
+export default Login;
