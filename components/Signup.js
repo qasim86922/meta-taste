@@ -1,8 +1,8 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text,ImageBackground } from "react-native";
 import TextInput from "../components/common/TextInput";
 import Picker from "../components/common/Picker";
-
+import image from '../assets/foods.jpg'
 import { registerUser } from "../actions";
 const Signup = () => {
   const [inputs, setInputs] = React.useState({});
@@ -24,6 +24,7 @@ const Signup = () => {
   };
 
   return !clicked ? (
+    <ImageBackground source={image} style={styles.image}>
     <View style={styles.signup}>
       <TextInput
         placeholder="First Name"
@@ -115,11 +116,13 @@ const Signup = () => {
         <Text style={{ fontSize: 20, color: "white" }}>Next</Text>
       </TouchableOpacity>
     </View>
+    </ImageBackground>
   ) : (
+    <ImageBackground source={image} style={styles.image}>
     <View style={styles.signup}>
-      <TouchableOpacity style={styles.backButton} onPress={onPressBackBtn}>
+      {/* <TouchableOpacity style={styles.backButton} onPress={onPressBackBtn}>
         <Text style={{ fontSize: 20, color: "white" }}>Back</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TextInput
         placeholder="Height"
         height="10%"
@@ -165,7 +168,9 @@ const Signup = () => {
           {error}
         </Text>
       ) : null}
+      
     </View>
+    </ImageBackground>
   );
 };
 
@@ -190,6 +195,12 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 10,
   },
+  
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
+  }
 });
 
 const items = [

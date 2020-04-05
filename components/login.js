@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Image, Text, TouchableOpacity, StyleSheet,ImageBackground,KeyboardAvoidingView } from "react-native";
 import TextInput from "./common/TextInput";
 import FoodIcon from "../assets/food-icon.png";
 import { loginUser } from "../actions";
-const Login = () => {
+import Wrapper from './Wrapper'
+
+const Login = ({navigation}) => {
   const [inputs, setInputs] = React.useState({});
   const [error, setErrors] = React.useState("");
 
@@ -14,8 +16,15 @@ const Login = () => {
     console.log(res);
     if (!res.success) setErrors("Invalid Email/Password");
   };
+  const onPressSignup = async ()=>{
+    navigation.push('SignUp');
+  }
+
+
+
   return (
-    <View style={styles.login}>
+<View style={styles.login}>
+      
       <Image source={FoodIcon} />
       <TextInput
         height={40}
@@ -31,12 +40,22 @@ const Login = () => {
       <TouchableOpacity style={styles.button} onPress={onPressLogin}>
         <Text style={{ fontSize: 20, color: "white" }}>Login</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity  onPress={onPressSignup}>
+        <Text style={{ fontSize: 20, color: "green" }}>don't have an account,signup?</Text>
+      </TouchableOpacity>
+
+    
+
+
       {error ? (
         <Text style={{ color: "red", marginTop: 10, fontSize: 20 }}>
           {error}
         </Text>
       ) : null}
+     
     </View>
+    
   );
 };
 
@@ -52,7 +71,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 150,
     marginTop: 10,
-  },
+  }
 });
 
 export default Login;

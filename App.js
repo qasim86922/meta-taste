@@ -1,13 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Header from "./components/Header";
-import Login from "./components/Login";
+
 import Signup from "./components/Signup";
+import Navigator from './routes/Routes'
 export default function App() {
   return (
     <View style={styles.container}>
       <Header />
-      <Signup />
+      <Navigator />
     </View>
   );
 }
