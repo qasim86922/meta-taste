@@ -24,14 +24,17 @@ export const loginUser = async (data) => {
 // Register User
 export const registerUser = async (data) => {
   try {
-    console.log("REACHED hERE");
-    console.log("data", data);
-    const res = await API.post("/auth/register", data);
+    const updatedData = { ...data, role: "user" };
+    console.log(updatedData);
+    const res = await API.post("/auth/register", updatedData);
+    console.log("Success");
 
     return res.data;
   } catch (err) {
+    console.log("ERROR MESSAGE", err.message);
     console.log(err);
-    console.log(err.message);
+
+    console.log("Failure");
     return { success: false };
   }
 };

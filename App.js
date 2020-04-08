@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Header from "./components/Header";
 
 import Signup from "./components/Signup";
-import Navigator from './routes/Routes'
+import Navigator from "./routes/Routes";
 export default function App() {
   return (
     <View style={styles.container}>
