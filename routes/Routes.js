@@ -4,6 +4,7 @@ import login from '../components/login';
 import signup from '../components/Signup';
 import home from '../components/Home';
 import reservation from '../components/Reservation';
+import reserve from '../components/Reserve';
 const screens = {
     Login:{
         screen:login
@@ -16,6 +17,9 @@ const screens = {
     },
     Reservation:{
         screen:reservation
+    },
+    Reserve:{
+        screen:reserve
     } 
 }
 
