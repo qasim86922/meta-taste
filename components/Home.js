@@ -9,25 +9,36 @@ import {
   FlatList,
 } from "react-native";
 import TextInput from "./common/TextInput";
-import { getRestaurants } from "../actions/index";
+import { getRestaurants } from "../actions";
 import image from "../assets/foods.jpg";
 const Home = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({});
   const [restaurantData, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [ filter_data, setFilter_data]= React.useState([]);
 
-  useEffect(a() => {
-    await apiCall();
-  });
+  useEffect(  () => {
+    //apiCall();
+   const data = require('./data.json');
+   console.log(typeof(data.data),'data')
+   setData(data.data);
+ });
 
-  const apiCall = async () => {
+
+  
+
+
+   apiCall = async () => {
+     
     setLoading(true);
-    const data = await getRestaurants;
+    const data = await getRestaurants();
+    console.log(data.data,'data')
     if (data.success) {
       setData(data.data);
       setLoading(false);
+      console.log(restaurantData,'data of all res')
     }
-
+    console.log(restaurantData,'data of all res')
     setLoading(false);
   };
 
@@ -50,11 +61,35 @@ const Home = ({ navigation }) => {
   ];
 
   const onPressSearch = async () => {
-    console.log(inputs, "in");
+    console.log(inputs, "in",restaurantData);
   };
   const onPressReservation = () => {
     navigation.push("Reservation");
   };
+
+   onPressList = async(data)=>{
+    
+   
+console.log(restaurantData,'restaurant data')
+const filtered_Res= restaurantData.filter(u=>{
+  let flag = false;
+  u.meals.map(o=>{
+     if(o.mealType.toLowerCase()==data.toLowerCase()){
+      flag =true
+     }
+   })
+   if(flag){
+     return u;
+     flag = false
+   } 
+})
+setFilter_data(filtered_Res);
+navigation.push('List_Restaurant',{name: data.toLowerCase,
+  Res_data:filtered_Res
+})
+console.log(filtered_Res,'filter')
+
+  }
   return (
     <ImageBackground source={image} style={styles.image}>
       {restaurantData && !loading ? (
@@ -80,7 +115,7 @@ const Home = ({ navigation }) => {
             renderItem={(data) => (
               <TouchableOpacity
                 style={styles.container}
-                onPress={() => setInputs({ ...inputs, data: data.item })}
+                onPress={() => onPressList(data.item.text)}
               >
                 <Text style={{ justifyContent: "center" }}>
                   {data.item.text}
