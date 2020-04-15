@@ -38,3 +38,18 @@ export const registerUser = async (data) => {
     return { success: false };
   }
 };
+
+// Get Restaurants
+export const getRestaurants = async () => {
+  try {
+    const res = await API.get("/restaurant");
+    console.log("SUCCESS");
+    return res.data;
+  } catch (err) {
+    console.log("ERROR MESSAGE", err.message);
+    console.log(err);
+
+    console.log("Failure");
+    return { success: false };
+  }
+};
