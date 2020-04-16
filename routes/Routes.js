@@ -5,6 +5,7 @@ import signup from "../components/Signup";
 import home from "../components/Home";
 import reservation from "../components/Reservation";
 import list_Restaurant from "../components/List_Restaurant";
+import restaurant_Detail from "../components/Restaurant_Detail";
 import reserve from "../components/Reserve";
 const screens = {
   // Login will be first component
@@ -13,6 +14,9 @@ const screens = {
   },
   List_Restaurant:{
     screen: list_Restaurant,
+  },
+  Restaurant_Detail:{
+    screen:restaurant_Detail,
   },
   Login: {
     screen: login,

@@ -11,19 +11,20 @@ import {
 import TextInput from "./common/TextInput";
 import { getRestaurants } from "../actions";
 import image from "../assets/foods.jpg";
+
 const Home = ({ navigation }) => {
   const [inputs, setInputs] = React.useState({});
   const [restaurantData, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [ filter_data, setFilter_data]= React.useState([]);
 
+  
+ 
   useEffect(  () => {
     //apiCall();
-   const data = require('./data.json');
-   console.log(typeof(data.data),'data')
-   setData(data.data);
+   
  });
-
+ 
 
   
 
@@ -68,10 +69,34 @@ const Home = ({ navigation }) => {
   };
 
    onPressList = async(data)=>{
+   let temp = [];
+    const data1 = {
+      name: 'Rina’s Kitchenette',
+      desc:
+        'A trendy eatery which is home to the original Chocolate Toblerone and Caramel Crunch. Their menu has grown over time to offer a variety of cuisines from around the world, be it their Smash Burgers, seasonal beverages or Oriental Bowl.',
+      image:
+        'https://profiles.pk/wp-content/uploads/2017/12/12998699_10156785158310274_2148234815734048381_n-537x408.jpg',
+      location: 'Commercial Area, 242 Y, Sector Y DHA Phase 3, Lahore',
+      meals:[
+        {   mealType: 'lunch',
+        name: 'Mozzarella Sticks',
+        desc:
+          'An elongated pieces of battered mozzarella, served with signature marinara sauce',
+        calories: 'high',
+        price: 'Rs 510',
+        image:
+          'https://images.eatthismuch.com/site_media/img/5651_test_user_fe886342-4fee-4973-87b7-555455f34acd.png',
+     }
+      ]
+    }
     
+    temp.push(data1);
+   await setData(temp)
+    
+    console.log(temp,'temp')
    
 console.log(restaurantData,'restaurant data')
-const filtered_Res= restaurantData.filter(u=>{
+const filtered_Res= temp.filter(u=>{
   let flag = false;
   u.meals.map(o=>{
      if(o.mealType.toLowerCase()==data.toLowerCase()){
@@ -84,11 +109,11 @@ const filtered_Res= restaurantData.filter(u=>{
    } 
 })
 setFilter_data(filtered_Res);
-navigation.push('List_Restaurant',{name: data.toLowerCase,
+
+console.log(filtered_Res,'filter')
+navigation.push('List_Restaurant',{name: data.toLowerCase(),
   Res_data:filtered_Res
 })
-console.log(filtered_Res,'filter')
-
   }
   return (
     <ImageBackground source={image} style={styles.image}>

@@ -1,16 +1,30 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { View, Image, Text, TouchableOpacity, ImageBackground,StyleSheet ,FlatList} from "react-native";
 import TextInput from "./common/TextInput";
 
 import image from "../assets/foods.jpg";
-const List_Restaurant = ({navigation,name,Res_data}) => {
-    console.log(name,Res_data,'00000000000000')
-    onPressList = ()=>{}
+const List_Restaurant = (props) => {
+    const [Res_data, setData] = useState([])
+    console.log(props.navigation.getParam('Res_data'),'00000000000000')
+    
+    useEffect(  () => {
+        setData(props.navigation.getParam('Res_data'));
+       
+     });
+    
+    
+    
+    onPressList = (name)=>{
+        console.log(name,'data selected')
+
+        props.navigation.push('Restaurant_Detail',{Res_detail:name})
+
+    }
     return(
         <ImageBackground source={image} style={styles.image}>
                <View style={styles.List}>
-                <Text>
-                    List of Restaurants that serves {name}
+                <Text >
+                    List of Restaurants that serves {props.navigation.getParam('name')}
                 </Text>
                 <FlatList
             data={Res_data}
@@ -18,10 +32,13 @@ const List_Restaurant = ({navigation,name,Res_data}) => {
             renderItem={(data) => (
               <TouchableOpacity
                 style={styles.container}
-                onPress={() => onPressList}
+                onPress={() => onPressList(data.item)}
               >
-                <Text style={{ justifyContent: "center" }}>
+                <Text style={{fontSize:20,fontWeight:'bold', justifyContent:'center'}}>
                   {data.item.name}
+                </Text>
+                <Text style={{fontSize:12,justifyContent:"center"}}>
+                  {data.item.desc}
                 </Text>
                 <Image source={{ uri: data.item.image }} style={styles.img} />
               </TouchableOpacity>
