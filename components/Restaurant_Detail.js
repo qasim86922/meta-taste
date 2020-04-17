@@ -23,7 +23,7 @@ const Restaurant_Detail = (props) => {
         <ImageBackground source={image} style={styles.image}>
             {Res_Detail ?
                 <View style={styles.LRes}>
-                    <Text>List of meals {Res_Detail.name} Serves </Text>
+                    <Text style={{ justifyContent: "center",fontWeight:'bold',fontSize:14 }}>List of meals {Res_Detail.name} Serves </Text>
                     <FlatList
 
                         data={Res_Detail.meals}
@@ -33,21 +33,21 @@ const Restaurant_Detail = (props) => {
                                 style={styles.container}
                                 onPress={() => onPressList(data.item)}
                             >
-                                <Text style={{ justifyContent: "center" }}>
-                                   Meal Type: {data.item.mealType}
+                                <Text style={{ justifyContent: "center",fontWeight:'bold',color:'green',fontSize:16 }}>
+                                   {data.item.mealType}
                                 </Text>
-                                <Text style={{ justifyContent: "center" }}>
+                                <Text style={{ justifyContent: "center",fontWeight:'bold',fontSize:16 }}>
                                     {data.item.name}
                                 </Text>
-                                <Text style={{ justifyContent: "center" }}>
+                
+                                <Image source={{ uri: data.item.image }} style={styles.img} />
+                                <Text style={{ justifyContent: "center",color:'green',fontSize:16 }}>
                                     {data.item.desc}</Text>
-                                <Text style={{ justifyContent: "center" }}>
+                                <Text style={{ justifyContent: "center",fontWeight:'bold',fontSize:16,color:'green' }}>
                                    Calories: {data.item.calories}</Text>
-                                <Text style={{ justifyContent: "center" }}>
+                                <Text style={{ justifyContent: "center",fontWeight:'bold',fontSize:16,color:'green' }}>
                                    price: {data.item.price}</Text>
 
-
-                                <Image source={{ uri: data.item.image }} style={styles.img} />
                             </TouchableOpacity>
                         )}
                     />
@@ -96,5 +96,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         justifyContent: "center",
         alignItems: "center",
-    },
+    },img: {
+        width: 130,
+        height: 70,
+        borderRadius: 400 / 2,
+      },
 });

@@ -34,13 +34,15 @@ const List_Restaurant = (props) => {
                 style={styles.container}
                 onPress={() => onPressList(data.item)}
               >
-                <Text style={{fontSize:20,fontWeight:'bold', justifyContent:'center'}}>
+                  {console.log(data.item.image,'image url')}
+                <Text style={{fontSize:20,fontWeight:'bold', justifyContent:'center',color:'green'}}>
                   {data.item.name}
                 </Text>
-                <Text style={{fontSize:12,justifyContent:"center"}}>
+                <Image source={{ uri: data.item.image }} style={styles.img} />
+                <Text style={{fontSize:12,justifyContent:"center" , fontWeight:'bold'}}>
                   {data.item.desc}
                 </Text>
-                <Image source={{ uri: data.item.image }} style={styles.img} />
+               
               </TouchableOpacity>
             )}
           />
@@ -87,5 +89,11 @@ const styles = StyleSheet.create({
         marginTop: 20,
         justifyContent: "center",
         alignItems: "center",
+       
+      },
+      img: {
+        width: 130,
+        height: 70,
+        borderRadius: 400 / 2,
       },
   });
