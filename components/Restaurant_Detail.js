@@ -16,9 +16,9 @@ const Restaurant_Detail = (props) => {
 
         setMeals({ ...meals, data })
     }
-    // onPressOrder = () => {
-    //     console.log(meals, '----meals')
-    // }
+    onPressOrder = () => {
+        console.log(meals, '----meals')
+    }
     return (
         <ImageBackground source={image} style={styles.image}>
             {Res_Detail ?
@@ -51,9 +51,9 @@ const Restaurant_Detail = (props) => {
                             </TouchableOpacity>
                         )}
                     />
-                    {/* <TouchableOpacity style={styles.button} onPress={()=>onPressOrder}>
+                    <TouchableOpacity style={styles.button} onPress={()=>onPressOrder}>
               <Text style={{ fontSize: 20, color: "white" }}>Order</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
                 </View>
                 : <Text>data loading please wait</Text>}
         </ImageBackground>
