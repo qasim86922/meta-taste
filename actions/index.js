@@ -42,9 +42,8 @@ export const registerUser = async (data) => {
 // Get Restaurants
 export const getRestaurants = async () => {
   try {
-    console.log('call ')
+    console.log("call ");
     const res = await API.get("/restaurant");
-    console.log("SUCCESS",res);
 
     return res.data;
   } catch (err) {

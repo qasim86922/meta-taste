@@ -6,17 +6,21 @@ import home from "../components/Home";
 import reservation from "../components/Reservation";
 import list_Restaurant from "../components/List_Restaurant";
 import restaurant_Detail from "../components/Restaurant_Detail";
+import Order from "../components/Order";
 import reserve from "../components/Reserve";
 const screens = {
   // Login will be first component
   Home: {
     screen: home,
   },
-  List_Restaurant:{
+  List_Restaurant: {
     screen: list_Restaurant,
   },
-  Restaurant_Detail:{
-    screen:restaurant_Detail,
+  Restaurant_Detail: {
+    screen: restaurant_Detail,
+  },
+  Orders: {
+    screen: Order,
   },
   Login: {
     screen: login,
