@@ -42,8 +42,23 @@ export const registerUser = async (data) => {
 // Get Restaurants
 export const getRestaurants = async () => {
   try {
-    console.log("call ");
+    console.log("fun call for get restaurants ");
     const res = await API.get("/restaurant");
+
+    return res.data;
+  } catch (err) {
+    console.log("ERROR MESSAGE", err.message);
+    console.log(err);
+
+    console.log("Failure");
+    return { success: false };
+  }
+};
+
+export const deleteRestaurants = async (id) => {
+  try {
+    console.log("fun call for delete restaurants ");
+    const res = await API.delete("/restaurant/" + id);
 
     return res.data;
   } catch (err) {

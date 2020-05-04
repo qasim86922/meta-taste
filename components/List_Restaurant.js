@@ -11,15 +11,32 @@ import {
 import TextInput from "./common/TextInput";
 
 import image from "../assets/foods.jpg";
+
+import { AppLoading } from 'expo';
+import { useFonts } from '@use-expo/font';
+
+
 const List_Restaurant = (props) => {
   const [Res_data, setData] = useState([]);
-  console.log(props.navigation.getParam("Res_data"), "00000000000000");
+  let [fontsLoaded] = useFonts({
+    'Lato-Light': require('../assets/fonts/Lato/Lato-Light.ttf'),
+    'Lato-Regular': require('../assets/fonts/Lato/Lato-Regular.ttf'),
+    'Lato-Bold': require('../assets/fonts/Lato/Lato-Bold.ttf'),
+
+  });
+
+
+  // console.log(props.navigation.getParam("Res_data"), "00000000000000");
 
   useEffect(() => {
     setData(props.navigation.getParam("Res_data"));
-  });
 
-  onPressList = (name) => {
+    return () => {
+      console.log("unmounted")
+    }
+  }, []);
+
+  function onPressList(name) {
     console.log(name, "data selected");
 
     props.navigation.push("Restaurant_Detail", {
@@ -27,15 +44,22 @@ const List_Restaurant = (props) => {
       mealType: props.navigation.getParam("name"),
     });
   };
+
+
+
+
   return (
     <ImageBackground source={image} style={styles.image}>
       <View style={styles.List}>
         <Text
           style={{
-            fontSize: 20,
-            fontWeight: "bold",
+            fontSize: 22,
+            // fontWeight: "bold",
             justifyContent: "center",
-            paddingTop: 10,
+            paddingTop: '5%',
+            marginHorizontal: '5%',
+            fontFamily: 'Lato-Bold',
+            textAlign: "center"
           }}
         >
           List of Restaurants that serves {props.navigation.getParam("name")}
@@ -48,25 +72,34 @@ const List_Restaurant = (props) => {
               style={styles.container}
               onPress={() => onPressList(data.item)}
             >
-              {console.log(data.item.image, "image url")}
+
+              <Image source={{ uri: data.item.image }} style={styles.img} />
+
               <Text
                 style={{
                   fontSize: 25,
-                  fontWeight: "bold",
+                  // fontWeight: "bold",
                   justifyContent: "center",
-                  color: "green",
+                  // color: "green",
                   paddingTop: 10,
+                  fontFamily: 'Lato-Bold',
+
                 }}
               >
                 {data.item.name}
               </Text>
-              <Image source={{ uri: data.item.image }} style={styles.img} />
+
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 15,
                   justifyContent: "center",
-                  fontWeight: "bold",
-                  padding: 10,
+                  // fontWeight: "bold",
+                  // padding: 10,
+                  marginHorizontal: '3%',
+                  marginVertical: "5%",
+                  fontFamily: 'Lato-Regular',
+                  textAlign: "center"
+
                 }}
               >
                 {data.item.desc}
@@ -117,8 +150,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   img: {
-    width: 130,
-    height: 70,
-    borderRadius: 400 / 2,
+    width: 200,
+    height: 100,
+    borderRadius: 10,
+    resizeMode: 'contain'
   },
 });

@@ -7,22 +7,41 @@ import {
   ImageBackground,
   StyleSheet,
   FlatList,
+  ActivityIndicator
 } from "react-native";
 import TextInput from "./common/TextInput";
 import { getRestaurants } from "../actions";
 import image from "../assets/foods.jpg";
 
+import { AppLoading } from 'expo';
+import { useFonts } from '@use-expo/font';
+
+
+
+
 const Home = ({ navigation }) => {
+
+
+
+
   const [inputs, setInputs] = React.useState({});
   const [restaurantData, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [filter_data, setFilter_data] = React.useState([]);
 
+  let [fontsLoaded] = useFonts({
+    'Lato-Light': require('../assets/fonts/Lato/Lato-Light.ttf'),
+    'Lato-Regular': require('../assets/fonts/Lato/Lato-Regular.ttf'),
+    'Lato-Bold': require('../assets/fonts/Lato/Lato-Bold.ttf'),
+
+  });
+
+
   useEffect(() => {
     apiCall();
   }, []);
 
-  apiCall = async () => {
+  const apiCall = async () => {
     setLoading(true);
     const data = await getRestaurants();
 
@@ -56,11 +75,13 @@ const Home = ({ navigation }) => {
     console.log(inputs, "in", restaurantData);
   };
   const onPressReservation = () => {
-    navigation.push("Reservation");
+    navigation.push("Reservation", { restaurantData: restaurantData });
   };
 
-  onPressList = async (data) => {
+  const onPressList = async (data) => {
+    console.log("pressed")
     if (restaurantData) {
+      setFilter_data([])
       const filtered_Res = restaurantData.filter((u) => {
         let flag = false;
         u.meals.map((o) => {
@@ -69,11 +90,15 @@ const Home = ({ navigation }) => {
           }
         });
         if (flag) {
-          return u;
           flag = false;
+          return u;
         }
       });
-      setFilter_data(filtered_Res);
+
+      // console.log(filtered_Res)
+
+
+      // setFilter_data(filtered_Res);
 
       console.log(filtered_Res, "filter");
       navigation.push("List_Restaurant", {
@@ -82,46 +107,91 @@ const Home = ({ navigation }) => {
       });
     }
   };
-  return (
-    <ImageBackground source={image} style={styles.image}>
-      {restaurantData && !loading ? (
-        <View style={styles.Home}>
-          <View style={styles.row}>
-            <TextInput
-              height={40}
-              width="60%"
-              placeholder="Search"
-              onChangeText={(text) => setInputs({ ...inputs, search: text })}
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+
+    return (
+      <ImageBackground source={image} style={styles.image}>
+        {restaurantData && !loading ? (
+          <View style={styles.Home}>
+            {/* <View style={styles.row}>
+
+              <TextInput
+                height={40}
+                width="60%"
+                placeholder="Search"
+                onChangeText={(text) => setInputs({ ...inputs, search: text })}
+              />
+
+              <TouchableOpacity style={styles.button} onPress={onPressSearch}>
+                <Text style={{ fontSize: 20, color: "white", fontFamily: 'Lato-Regular' }}>Search</Text>
+              </TouchableOpacity>
+            </View> */}
+
+
+            <TouchableOpacity style={styles.Rbutton} onPress={onPressReservation}>
+              <Text style={{ fontSize: 20, color: "white" }}>Reservation</Text>
+            </TouchableOpacity>
+
+            <Text
+              style={{
+                fontSize: 22,
+                // fontWeight: "bold",
+                justifyContent: "center",
+                paddingTop: '5%',
+                marginHorizontal: '5%',
+                fontFamily: 'Lato-Bold',
+                textAlign: "center"
+              }}
+            >
+              Are you looking to have?
+            </Text>
+
+            <FlatList
+              data={homeData}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => item.text}
+              renderItem={(data) => (
+                // <View style={{}}>
+                <TouchableOpacity
+                  style={styles.container}
+                  onPress={() => onPressList(data.item.text)}
+                >
+                  <Image source={{ uri: data.item.image }} style={styles.img} />
+                  <Text style={{ justifyContent: "center", fontFamily: "Lato-Bold", fontSize: 15 }}>
+                    {data.item.text}
+                  </Text>
+                </TouchableOpacity>
+                // </View>
+              )}
             />
 
-            <TouchableOpacity style={styles.button} onPress={onPressSearch}>
-              <Text style={{ fontSize: 20, color: "white" }}>search</Text>
-            </TouchableOpacity>
+
+
+            {/* <Overlay
+              isVisible={true}
+              windowBackgroundColor="rgba(255, 255, 255, .5)"
+              overlayBackgroundColor="red"
+              width="auto"
+              height="auto"
+            >
+              <Text>Hello from Overlay!</Text>
+            </Overlay> */}
+
           </View>
-          <TouchableOpacity style={styles.Rbutton} onPress={onPressReservation}>
-            <Text style={{ fontSize: 20, color: "white" }}>Reservation</Text>
-          </TouchableOpacity>
-          <FlatList
-            data={homeData}
-            keyExtractor={(item, index) => item.text}
-            renderItem={(data) => (
-              <TouchableOpacity
-                style={styles.container}
-                onPress={() => onPressList(data.item.text)}
-              >
-                <Text style={{ justifyContent: "center" }}>
-                  {data.item.text}
-                </Text>
-                <Image source={{ uri: data.item.image }} style={styles.img} />
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      ) : (
-        <Text>Loading data please wait </Text>
-      )}
-    </ImageBackground>
-  );
+
+
+        ) : (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+              <ActivityIndicator color={'blue'} size={'large'} />
+            </View>
+
+          )}
+      </ImageBackground>
+    );
+  }
 };
 export default Home;
 
@@ -144,12 +214,13 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 40,
     margin: 10,
+    borderRadius: 5
   },
   Rbutton: {
-    backgroundColor: "green",
-    padding: 10,
+    backgroundColor: "#134B80",
+    paddingHorizontal: 10,
     justifyContent: "center",
-
+    borderRadius: 5,
     alignItems: "flex-end",
     height: 40,
     margin: 20,
@@ -159,13 +230,15 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: '15%',
     justifyContent: "center",
     alignItems: "center",
+    // marginBottom: '5%'
   },
   img: {
-    width: 130,
-    height: 70,
-    borderRadius: 400 / 2,
+    width: 200,
+    height: 100,
+    borderRadius: 10,
+    // resizeMode:'center'
   },
 });

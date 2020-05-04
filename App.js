@@ -7,9 +7,13 @@ import Navigator from "./routes/Routes";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Header />
-      <Navigator />
-      {/* <Home /> */}
+      {/* <View style={{ flex: 1 }}>
+        <Header />
+      </View> */}
+      <View style={{ flex: 8.5, backgroundColor:'red' }}>
+        <Navigator />
+        {/* <Home /> */}
+      </View>
     </View>
   );
 }
